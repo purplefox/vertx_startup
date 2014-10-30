@@ -1,8 +1,8 @@
 # Vert.x Example Maven Project
 
-Deploy with Vert.x 2.1.4. For run type in console:
+Deploy with Vert.x 2.1.4. For run, go to src/main/java/getstarted/ and type in console:
 
-    vertx run src/main/java/getstarted/Startup.java
+    vertx run Startup.java
 
 
 
