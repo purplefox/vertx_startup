@@ -13,6 +13,6 @@ public class Verticle2 extends Verticle {
                 httpServerRequest -> httpServerRequest.response().end("TEST 2")
         );
 
-        vertx.createHttpServer().requestHandler(routeMatcher).listen(1234);
+        vertx.createHttpServer().requestHandler(routeMatcher).listen(1234, "localhost");
     }
 }

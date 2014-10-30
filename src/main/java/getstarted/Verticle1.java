@@ -14,6 +14,6 @@ public class Verticle1 extends Verticle {
                 httpServerRequest -> httpServerRequest.response().end("TEST 1")
         );
 
-        vertx.createHttpServer().requestHandler(routeMatcher).listen(1234);
+        vertx.createHttpServer().requestHandler(routeMatcher).listen(1234, "localhost");
     }
 }
