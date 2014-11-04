@@ -1,8 +1,12 @@
 # Vert.x Example Maven Project
 
-Deploy with Vert.x 2.1.4. For run, go to src/main/java/getstarted/ and type in console:
+For run:
 
-    vertx run Startup.java
+    mvn clean package;
+    mvn vertx:runMod;
+    
+Tests run:
+    mvn integration-test
 
 
 
