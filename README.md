@@ -5,7 +5,7 @@ For run:
     mvn clean package;
     mvn vertx:runMod;
     
-Tests run:
+Test run:
 
     mvn integration-test
 
