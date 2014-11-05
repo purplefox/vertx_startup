@@ -3,6 +3,7 @@ package getstarted.integration.java;
 import getstarted.Verticle1;
 import getstarted.Verticle2;
 import org.junit.Test;
+import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.http.HttpClient;
@@ -35,32 +36,34 @@ public class IntegrationTest extends TestVerticle {
 
       @Test
       public void testVerticle1() {
-        container.deployVerticle("getstarted.Startup");
-        HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
+        container.deployVerticle("getstarted.Startup", stringAsyncResult -> {
+            HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
 
-          client.getNow("/verticle1", httpClientResponse -> {
+            client.getNow("/verticle1", httpClientResponse -> {
 
-            httpClientResponse.dataHandler(data -> {
-                VertxAssert.assertEquals("VERTICLE-1",data.toString());
-                testComplete();
+                httpClientResponse.dataHandler(data -> {
+                    VertxAssert.assertEquals("VERTICLE-1",data.toString());
+                    testComplete();
+                });
+
             });
-
-         });
+        });
 
       }
 
     @Test
     public void testVerticle2() {
-        container.deployVerticle("getstarted.Startup");
-        HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
+        container.deployVerticle("getstarted.Startup", stringAsyncResult -> {
+            HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
 
-        client.getNow("/verticle2", httpClientResponse -> {
+            client.getNow("/verticle2", httpClientResponse -> {
 
-            httpClientResponse.dataHandler(data -> {
-                VertxAssert.assertEquals("VERTICLE-2",data.toString());
-                testComplete();
+                httpClientResponse.dataHandler(data -> {
+                    VertxAssert.assertEquals("VERTICLE-2",data.toString());
+                    testComplete();
+                });
+
             });
-
         });
 
     }
