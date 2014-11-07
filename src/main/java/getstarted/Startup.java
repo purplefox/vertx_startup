@@ -12,20 +12,20 @@ public class Startup extends Verticle {
 
         container.deployVerticle("getstarted.Verticle1", deployResult -> {
             if (deployResult.succeeded()) {
-                System.out.println("deploy result Verticle1: " + deployResult.result());
-               // startedResult.setResult(null);
+                System.out.println("[VERTICLE-DEPLOY] [SUCCESS] Verticle1 --> " + deployResult.result());
+                startedResult.setResult(null);
             } else {
-                System.out.println("error Verticle1: " + deployResult.cause());
-               // startedResult.setFailure(deployResult.cause());
+                System.out.println("[VERTICLE-DEPLOY] [ERROR] Verticle1 --> " + deployResult.cause());
+                startedResult.setFailure(deployResult.cause());
             }
         });
 
         container.deployVerticle("getstarted.Verticle2",deployResult -> {
             if (deployResult.succeeded()) {
-                System.out.println("deploy result Verticle2: " + deployResult.result());
+                System.out.println("[VERTICLE-DEPLOY] [SUCCESS] Verticle2 --> " + deployResult.result());
                 startedResult.setResult(null);
             } else {
-                System.out.println("error Verticle2" + deployResult.cause());
+                System.out.println("[VERRICLE-DEPLOY] [ERROR] Verticle2 --> " + deployResult.cause());
                 startedResult.setFailure(deployResult.cause());
             }
         });

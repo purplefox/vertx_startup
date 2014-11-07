@@ -4,6 +4,7 @@ import getstarted.Verticle1;
 import getstarted.Verticle2;
 import org.junit.Test;
 import org.vertx.java.core.AsyncResult;
+import org.vertx.java.core.AsyncResultHandler;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.http.HttpClient;
@@ -11,8 +12,7 @@ import org.vertx.java.core.http.HttpClientResponse;
 import org.vertx.testtools.TestVerticle;
 import org.vertx.testtools.VertxAssert;
 
-import static org.vertx.testtools.VertxAssert.assertEquals;
-import static org.vertx.testtools.VertxAssert.testComplete;
+import static org.vertx.testtools.VertxAssert.*;
 
 /*
  * Copyright 2013 Red Hat, Inc.
@@ -33,37 +33,43 @@ import static org.vertx.testtools.VertxAssert.testComplete;
  */
 public class IntegrationTest extends TestVerticle {
 
+    @Override
+    public void start() {
+        initialize();
+        container.deployVerticle("getstarted.Startup" , new AsyncResultHandler<String>() {
+            @Override
+            public void handle(AsyncResult<String> asyncResult) {
+                assertTrue(asyncResult.succeeded());
+                assertNotNull("deploymentID should not be null", asyncResult.result());
+                startTests();
+            }
+        });
+    }
 
       @Test
       public void testVerticle1() {
-        container.deployVerticle("getstarted.Startup", stringAsyncResult -> {
-            HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
+        HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
 
-            client.getNow("/verticle1", httpClientResponse -> {
-
-                httpClientResponse.dataHandler(data -> {
-                    VertxAssert.assertEquals("VERTICLE-1",data.toString());
-                    testComplete();
-                });
-
+        client.getNow("/verticle1", httpClientResponse -> {
+            httpClientResponse.dataHandler(data -> {
+                VertxAssert.assertEquals("VERTICLE-1",data.toString());
+                testComplete();
             });
+
         });
 
       }
 
     @Test
     public void testVerticle2() {
-        container.deployVerticle("getstarted.Startup", stringAsyncResult -> {
-            HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
+        HttpClient client = vertx.createHttpClient().setHost("localhost").setPort(1234);
 
-            client.getNow("/verticle2", httpClientResponse -> {
-
-                httpClientResponse.dataHandler(data -> {
-                    VertxAssert.assertEquals("VERTICLE-2",data.toString());
-                    testComplete();
-                });
-
+        client.getNow("/verticle2", httpClientResponse -> {
+            httpClientResponse.dataHandler(data -> {
+                VertxAssert.assertEquals("VERTICLE-2",data.toString());
+                testComplete();
             });
+
         });
 
     }

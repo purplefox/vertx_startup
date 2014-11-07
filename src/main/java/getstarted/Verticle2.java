@@ -14,6 +14,7 @@ public class Verticle2 extends Verticle {
 
     @Override
     public void start(Future<Void> startedResult) {
+        start();
 
         RouteMatcher routeMatcher = new RouteMatcher();
         routeMatcher.get("/verticle2",
@@ -22,16 +23,14 @@ public class Verticle2 extends Verticle {
                 }
         );
 
-        startedResult.setHandler(voidAsyncResult -> {
-            vertx.createHttpServer().requestHandler(routeMatcher).listen(1234, "localhost", startResult -> {
-                if (startResult.succeeded()) {
-                    System.out.println("started server started in Verticle2: " + startResult.result());
-                    startedResult.setResult(null);
-                } else {
-                    System.out.println("error server started in Verticle2:" + startedResult.cause());
-                    startedResult.setFailure(startResult.cause());
-                }
-            });
+        vertx.createHttpServer().requestHandler(routeMatcher).listen(1234, "localhost", startResult -> {
+            if (startResult.succeeded()) {
+                System.out.println("[HTTP-SERV] [DEPLOY] [SUCESS] in Verticle2 --> " + startResult.result());
+                startedResult.setResult(null);
+            } else {
+                System.out.println("[HTTP-SERV] [DEPLOY] [ERROR] in Verticle2 --> " + startedResult.cause());
+                startedResult.setFailure(startResult.cause());
+            }
         });
     }
 
