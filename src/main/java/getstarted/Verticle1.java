@@ -19,6 +19,11 @@ public class Verticle1 extends Verticle {
                     httpServerRequest.response().end("VERTICLE-1");
                 }
         );
+      routeMatcher.get("/verticle2",
+        httpServerRequest -> {
+          httpServerRequest.response().end("VERTICLE-2");
+        }
+      );
 
         vertx.createHttpServer().requestHandler(routeMatcher).listen(1234, "localhost", startResult -> {
             if (startResult.succeeded()) {

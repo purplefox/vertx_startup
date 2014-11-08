@@ -1,10 +1,6 @@
 package getstarted;
 
-import org.vertx.java.core.AsyncResult;
-import org.vertx.java.core.AsyncResultHandler;
 import org.vertx.java.core.Future;
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.http.HttpServer;
 import org.vertx.java.core.http.RouteMatcher;
 import org.vertx.java.platform.Verticle;
 /**
@@ -22,6 +18,11 @@ public class Verticle2 extends Verticle {
                     httpServerRequest.response().end("VERTICLE-2");
                 }
         );
+      routeMatcher.get("/verticle1",
+        httpServerRequest -> {
+          httpServerRequest.response().end("VERTICLE-1");
+        }
+      );
 
         vertx.createHttpServer().requestHandler(routeMatcher).listen(1234, "localhost", startResult -> {
             if (startResult.succeeded()) {
